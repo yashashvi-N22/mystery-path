@@ -32,7 +32,7 @@ class MysteryPathGame:
         self.message.hideturtle()
         self.message.color("white")
         self.message.penup()
-        self.message.goto(0, 250)
+        self.message.goto(0, -50)
 
         self.mark_destinations()
         self.bind_keys()
@@ -74,6 +74,7 @@ class MysteryPathGame:
         countdown(self.message)
         self.t.setheading(self.t.towards(self.destinations[self.correct_color]))
         self.t.goto(self.destinations[self.correct_color])
+        self.t.clear()
         self.t.penup()
 
         if user_guess == self.correct_color:
@@ -91,7 +92,9 @@ class MysteryPathGame:
             result += "\n\nPress R, G, Y, or B for next round."
         else:
             result += f"\n\n🏁 Game Over!\nFinal Score: {self.score}/{self.max_rounds}"
-            result += f"\n\n📜 Guess History: {self.history}"
+            history_lines = "\n".join([f"  You: {u.upper()} → Actual: {c.upper()}" for u, c in self.history])
+            result += f"\n\n📜 Guess History:\n{history_lines}"
+
 
         self.message.clear()
         self.message.write(result, align="center", font=("Arial", 14, "bold"))
